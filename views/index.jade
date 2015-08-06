@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  
+  #bulu_bulu
+    p #{bulu_content}
+
+    block js
+        script(src="javascripts/indexjs.js")
