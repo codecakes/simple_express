@@ -1,8 +1,11 @@
 extends layout
 
+block title
+    title= "Error 400"
+
 block content
-    h2#errorh2=error
-    p#error-msg400 #{msg}
-    img(src="#{src1}")#error400src1
-    img(src="#{src2}")#error400src2
-    img(src="#{src3}")#error400src3
+    h2#errorh2 Hmmm...my last straw
+    p#error-msg400 Actually, we haven't published such a page..yet.
+    img(src="https://farm9.staticflickr.com/8142/7706530240_718f34f1e6_o_d.jpg")#error400src1
+    img(src="https://pixabay.com/static/uploads/photo/2015/03/25/13/04/page-not-found-688965_640.png")#error400src2
+    img(src="https://upload.wikimedia.org/wikipedia/commons/a/af/Notfound.png")#error400src3

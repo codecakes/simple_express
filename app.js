@@ -18,6 +18,7 @@
     http = require("http"),
     responseTime = require("response-time"),
     bodyParser = require('body-parser'),
+    multer = require('multer'),
     methodOverride = require('method-override'),
     path = require('path'),
     logger = require('morgan'),
@@ -26,10 +27,11 @@
     fileStreamRotator = require('file-stream-rotator'),
     iniparser = require("iniparser"),
     configFile = iniparser.parseSync(path.join(__dirname, 'config', 'config.ini')),
-    handler = require(path.join(__dirname, "routes_handler", "handler.js"));
+    handler = require(path.join(__dirname, "routes_handler", "handler.js")),
+    partial = require("express-partial");
   
   //Create the log dir if it doesn't exist
-  fs.existsSync(path.join(__dirname, configFile.logDir)) || fs.mkdirSync(configFile.logDir);
+  fs.existsSync(path.join(__dirname, configFile.logDir)) || fs.mkdirSync(path.join(__dirname, configFile.logDir));
   
   // Configuration
   app.set('port', process.env.PORT || parseInt(configFile.PORT));
@@ -38,7 +40,6 @@
   app.set('env', process.env['NODE_ENV'] || 'development');
   
   var logfile = path.join(__dirname, configFile.logDir, "log-%DATA%.log");
-  app.use(logger(app.get('env')));
   app.use(logger('combined',
                 fileStreamRotator.getStream({
                   filename: logfile.toString(),
@@ -46,18 +47,28 @@
                   frequency: 'daily'
                 })
           ));
+  app.use(logger(app.get('env')));
   
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json()); // for parsing application/json
+  app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+  //app.use(multer()); // for parsing multipart/form-data
   app.use(methodOverride());
   app.use(responseTime());
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(partial());
   
   
   // Routes
   
   app.use('/', router);
   handler.handler(router);
+  
+  // use stylus middleware and static after setting router
+  app.use(require("stylus").middleware({
+    compress:true,
+    src: path.join(__dirname, 'public', 'stylesheets')
+  }));
+  
+  app.use(express.static(path.join(__dirname, 'public')));
   
   // error handling middleware should be loaded after the loading the routes
   if ('development' == app.get('env')) {
