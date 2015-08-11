@@ -17,7 +17,7 @@ exports.counterNamespace = function (app) {
             res.render('counter', {
                 counter: req.signedCookies.counter,
                 views: req.session.views['/counter'],
-                user_view: req.session.cookie.user_view['/counter'],
+                user_view: req.session.cookie.user_view['/counter']
                 //sid: req.session.get(req.signedCookies['connect.sid'], req.session)
             });
             console.log("cookie count: %s - Unsigned %s - Signed %s",

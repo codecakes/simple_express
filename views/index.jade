@@ -7,15 +7,11 @@ block content
   #bulu_bulu
     p #{bulu_content}
     
-  form#form-reflow(action='/ajaxReq', method='get', onsubmit="docreflow()")
+  form#form-reflow(action='/ajaxReq')
     input#textinp(type="text", name="textinp")
     input#submit(type="submit", name="submit")
   
-  if data
-    div
-      #{data}
-  
-  block js
-      script(src="javascripts/indexjs.js")
-      script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
-      script(src="javascripts/ajaxReq.js")
+block js
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    script(src="javascripts/ajaxReq.js")
+    script(src="javascripts/indexjs.js")

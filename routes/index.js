@@ -8,10 +8,10 @@ exports.indexNamespace = function indexNamespace (app) {
         namespace = require('express').Router(),
         
         pageIndex = function pageIndex(req, res){
-            console.log("Requesting cookie");
-            console.log(req.cookies);
-            console.log("Requesting from Session");
-            console.log(req.session);
+            //console.log("Requesting cookie");
+            //console.log(req.cookies);
+            //console.log("Requesting from Session");
+            //console.log(req.session);
             res.render('index', { title: 'Express',
                                   bulu_bulu: "bulu_bulu",
                                   bulu_content: "Up on the bulu bulu"});
@@ -61,39 +61,23 @@ exports.indexNamespace = function indexNamespace (app) {
                 console.log(req.body);    
                 console.log("req.query");
                 console.log(req.query);
+                console.log(req.params);
+                console.log(req.param());
                 
                 
-                //res.setHeader("Content-Type", "application/json");
+                res.setHeader("Content-Type", "application/json");
                 //res.setHeader("Access-Control-Allow-Origin", "*");
                 
-                var json_data = {data: req.query.textinp,
-                                title: 'Express',
-                                bulu_bulu: "bulu_bulu",
-                                bulu_content: "Up on the bulu bulu"
-                };
+                var json_data = {data: req.body.data,
+                                title: 'Express'};
                 //implies res.jsonp(req.query.callback + '('+ JSON.stringify(obj) + ');');
                 res.jsonp(json_data);
                 //sendSSE(req, res, json_data);
-                //res.end();
-                
-                //#TODO: do something with this to doc reflow instead page reload
-                /*
-                res.render('index', {ajaxReq: true, 
-                                    data: req.body.textinp,
-                                    title: 'Express',
-                                    bulu_bulu: "bulu_bulu",
-                                    bulu_content: "Up on the bulu bulu"
-                                    },
-                                    function (err, html) {
-                                        if ( !( err ) ) {
-                                            res.send(html);   
-                                        }
-                                    });*/
             }
         };
     
     namespace.get('/', pageIndex);
-    namespace.get('/ajaxReq', ajaxReq);
+    namespace.post('/ajaxReq', ajaxReq);
     
     app.use('/', namespace);
 }
