@@ -6,17 +6,15 @@ block content
   
   #bulu_bulu
     p #{bulu_content}
+    
+  form#form-reflow(action='/ajaxReq', method='get', onsubmit="docreflow()")
+    input#textinp(type="text", name="textinp")
+    input#submit(type="submit", name="submit")
   
-  if !ajaxReq
-    form#form-reflow(action='/', method='post')
-      input#textinp(type="text", name="textinp")
-      input#submit(type="submit", name="submit")
-    
-  if ajaxReq
-    div#ajaxMsg
-        p It actually works!
-        p Data is "#{data}"
-    
+  if data
+    div
+      #{data}
+  
   block js
       script(src="javascripts/indexjs.js")
       script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")

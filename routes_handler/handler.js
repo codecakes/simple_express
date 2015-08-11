@@ -5,4 +5,5 @@ exports.handler = function handle_routes (app) {
     require('../routes').indexNamespace(app);
     require('../routes/users.js').userNamespace(app);
     require('../routes/test.js').testNamespace(app);
+    require("../routes/counter.js").counterNamespace(app);
 };
